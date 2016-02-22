@@ -1,26 +1,34 @@
 'use strict'
 function StorageManager(type) {
-  if (!isAvailable(type)) return alert('Your browser does not support storage type', type)
+  if (type !== 'localStorage' && type !== 'sessionStorage') throw new ReferenceError(`StorageManager does not support storage type ${type}`)
 
   const myStore = window[type]
 
   return {
     get(key) {
-      if (myStore[key]) return JSON.parse(myStore[key])
+      var item = myStore.getItem(key)
+      if (item) return item
       return false
     },
     getAll() {
       var key = ''
       var map = {}
+      var item = null
       for (var i = 0; i < myStore.length; i++) {
         key = myStore.key(i)
-        map[key] = JSON.parse(myStore[key])
+        if (~key.indexOf('_')) continue
+        item = myStore.getItem(key)
+        map[key] = item
       }
       return map
     },
     set(key, obj) {
       try {
-        myStore[key] = JSON.stringify(obj)
+        var data
+        if (typeof obj !== 'string') data = JSON.stringify(obj)
+        else data = obj
+
+        myStore.setItem(key, data)
         return true
       }
       catch(e) {
@@ -29,8 +37,10 @@ function StorageManager(type) {
       }
     },
     remove(key) {
-      if (!myStore[key]) return false
-      delete myStore[key]
+      var item = myStore.getItem(key)
+      if (!item) return false
+      myStore.removeItem(key)
+      return true
     },
     getLength() {
       return myStore.length
@@ -42,16 +52,3 @@ function StorageManager(type) {
 }
 
 module.exports = StorageManager
-
-function isAvailable(type) {
-	try {
-		var storage = window[type]
-		var x = '__storage_test__'
-		storage.setItem(x, x)
-		storage.removeItem(x)
-		return true
-	}
-	catch(e) {
-		return false
-	}
-}

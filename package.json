@@ -1,10 +1,10 @@
 {
   "name": "storage-manager",
   "version": "1.0.0",
-  "description": "A simple wrapper aronud local/sessionStorage for browser",
+  "description": "A simple wrapper aronud local/sessionStorage for browsers",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "browserify test/test.js -o test/index.js"
   },
   "repository": {
     "type": "git",
@@ -15,5 +15,10 @@
   "bugs": {
     "url": "https://github.com/thurt/storage-manager/issues"
   },
-  "homepage": "https://github.com/thurt/storage-manager#readme"
+  "homepage": "https://github.com/thurt/storage-manager#readme",
+  "devDependencies": {
+    "browserify": "^13.0.0",
+    "chai": "^3.5.0",
+    "mocha": "^2.4.5"
+  }
 }
