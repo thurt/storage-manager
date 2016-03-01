@@ -60,7 +60,7 @@ describe('Interface', () => {
     myStore.set('a', 1)
     myStore.set('b', 2)
     myStore.set('c', 3)
-    assert.strictEqual(myStore.getLength(), 3)
+    assert.strictEqual(myStore.length(), 3)
     //----------------
     myStore.clear()
   })

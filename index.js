@@ -7,7 +7,7 @@ function StorageManager(type) {
   return {
     get(key) {
       var item = myStore.getItem(key)
-      if (item) return item
+      if (item !== null) return item
       return false
     },
     getAll() {
@@ -38,11 +38,11 @@ function StorageManager(type) {
     },
     remove(key) {
       var item = myStore.getItem(key)
-      if (!item) return false
+      if (item === null) return false
       myStore.removeItem(key)
       return true
     },
-    getLength() {
+    length() {
       return myStore.length
     },
     clear() {
